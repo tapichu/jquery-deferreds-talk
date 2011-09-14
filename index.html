@@ -205,6 +205,33 @@
     </p>
 </div>
 
+<div class="slide" id="deferred-constructor">
+    <h2>Constructor de jQuery.Deferred</h2>
+    <ul>
+        <li class="slide" id="create-deferred">
+            <strong>jQuery.Deferred()</strong> regresa un deferred (una promesa).
+        </li>
+        <li class="slide" id="create-deferred-alt">
+            <strong>jQuery.Deferred(function)</strong> la función recibe como primer arumento (y como this) el deferred creado.
+        </li>
+    </ul>
+    <section class="slide" id="create-deferred-example">
+        <div>
+            <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;">
+                var deferred = $.Deferred();
+
+                var deferredWithCallbak = $.Deferred(function(defer) {
+                    defer.then(function() { alert('done'); });
+                });
+
+                var deferredWithThis = $.Deferred(function() {
+                    this.then(function() { alert('done'); });
+                });
+            </textarea>
+        </div>
+    </section>
+</div>
+
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
 <a href="#" class="deck-next-link" title="Next">&#8594;</a>
 
