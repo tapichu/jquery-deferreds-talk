@@ -77,6 +77,31 @@
     </ul>
 </div>
 
+<div class="slide" id="resolve-deferreds-slide">
+    <h2>Resolver un objeto Deferred</h2>
+    <p>"Llamar" los callbacks asociados al estado del deferred.</p>
+    <ul>
+        <li class="slide" id="deferred-resolve">
+            <strong>deferred.resolve(args)</strong> para resolver el objeto Deferred.
+        </li>
+        <li class="slide" id="deferred-reject">
+            <strong>deferred.reject(args)</strong> para rechazar el objeto Deferred.
+        </li>
+    </ul>
+    <p class="slide" id="deferred-state">
+        Una vez que el objeto Deferred está resuelto o rechazado se mantiene en ese estado.<br/>
+    </p>
+    <p class="slide" id="second-calls">
+        Invocaciones posteriores a <strong>deferred.resolve()</strong> o
+        <strong>deferred.reject()</strong> serán ignoradas.
+    </p>
+    <p class="slide" id="more-functions">
+        Si se agregan más funciones con <strong>deferred.then()</strong> después de que se resolvió
+        el objeto Deferred, estas serán invocadas inmediatamente (con los argumentos enviados al resolver
+        el deferred).
+    </p>
+</div>
+
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
 <a href="#" class="deck-next-link" title="Next">&#8594;</a>
 
