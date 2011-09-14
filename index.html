@@ -271,6 +271,83 @@
     </ul>
 </div>
 
+<section class="slide" id="custom-deferreds-example1">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            // Example
+
+            var obj = {
+                hello: function(name) { console.log("Hello " + name); }
+            },
+            defer = $.Deferred();
+
+            defer.promise(obj);
+
+            defer.resolve("John");
+
+            obj.done(function(name) { obj.hello(name); })
+                .hello('Karl');
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="custom-deferreds-example2">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#custom-deferreds-example2 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            (function() {
+                var defer = $.Deferred();
+
+                $('h2').hover(function(e) {
+                    defer.resolve($(this).text());
+                });
+
+                return defer;
+            })().then(function(text) {
+                log('Heading text is: ' + text);
+            });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="custom-deferreds-example3">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#custom-deferreds-example3 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+            function asyncEvent() {
+                var dfd = new $.Deferred();
+                parent.setTimeout(function() {
+                    dfd.resolve('hurray');
+                }, Math.floor(Math.random()*1500));
+                parent.setTimeout(function() {
+                    dfd.reject('sorry');
+                }, Math.floor(Math.random()*1500));
+                return dfd.promise();
+            }
+
+            $.when(asyncEvent()).then(
+                function(status) { log(status + ', things are going well'); },
+                function(status) { log(status + ', you fail this time'); }
+            );
+        </textarea>
+    </div>
+</section>
+
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
 <a href="#" class="deck-next-link" title="Next">&#8594;</a>
 
