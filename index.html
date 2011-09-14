@@ -78,7 +78,7 @@
             <strong>deferred.fail()</strong> cuando el objeto Deferred esté rechazado.
         </li>
         <li class="slide" id="deferred-always">
-            <strong>deferred.always()</strong> siempre se invocarán estas funciones.
+            <strong>deferred.always()</strong> (1.6) siempre se invocarán estas funciones.
         </li>
     </ul>
 </div>
@@ -230,6 +230,45 @@
             </textarea>
         </div>
     </section>
+</div>
+
+<div class="slide" id="deferred-methods">
+    <h2>Otros métodos del objeto deferred</h2>
+    <ul>
+        <li class="slide" id="deferred-is-rejected">
+            <strong>deferred.isRejected()</strong> para determinar si el objeto Deferred fue rechazado.
+        </li>
+        <li class="slide" id="deferred-is-resolved">
+            <strong>deferred.isResolved()</strong> para determinar si el objeto Deferred ya se resolvió.
+        </li>
+        <li class="slide" id="deferred-resolve">
+            <strong>deferred.resolve()</strong> para resolver el objeto Deferred e invocar los callbacks con los
+            <em>args</em> proporcionados.
+        </li>
+        <li class="slide" id="deferred-resolve-with">
+            <strong>deferred.resolveWith()</strong> para resolver el objeto Deferred e invocar los callbacks con los
+            <em>args</em> y el <em>contexto</em> proporcionado.
+        </li>
+        <li class="slide" id="deferred-reject">
+            <strong>deferred.reject()</strong> para rechazar el objeto Deferred e invocar los callbacks con los
+            <em>args</em> proporcionados.
+        </li>
+        <li class="slide" id="deferred-reject-with">
+            <strong>deferred.rejectWith()</strong> para rechazar el objeto Deferred e invocar los callbacks con los
+            <em>args</em> y el <em>contexto</em> proporcionado.
+        </li>
+        <li class="slide" id="deferred-pipe">
+            <strong>deferred.pipe()</strong> (1.6) para filtrar o encadenar Deferreds.
+        </li>
+        <li class="slide" id="deferred-promise">
+            <strong>deferred.promise()</strong> que otro código interfiera con el estatus de un deferred geneardo por
+            una función asíncrona.<br/>
+            La promesa sólo tiene los métodos: <em>then, done, fail, isResolved, isRejected, always y pipe</em>.
+        </li>
+        <li class="slide" id="deferred-promise-target">
+            <strong>deferred.promise(target)</strong> permite agregar los métodos de la promesa a un objeto existente.
+        </li>
+    </ul>
 </div>
 
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
