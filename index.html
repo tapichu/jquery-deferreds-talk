@@ -77,6 +77,9 @@
         <li class="slide" id="deferred-fail">
             <strong>deferred.fail()</strong> cuando el objeto Deferred esté rechazado.
         </li>
+        <li class="slide" id="deferred-always">
+            <strong>deferred.always()</strong> siempre se invocarán estas funciones.
+        </li>
     </ul>
 </div>
 
@@ -155,6 +158,32 @@
                 .fail(function(xhr, status) {
                     log('Error: ' + xhr.status);
                 });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="jquery-when-example">
+    <h2>Ejemplo con jQuery.when()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-when-example .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.when($.get('/'), $.get('/does-not-exists'))
+                .then(function(data1, data2) {
+                    log(data1 + '_' + data2);
+                }, [
+                    function(xhr, status) {
+                        // Do something else
+                    },
+                    function(xhr, status) {
+                        log('Something went wrong: ' + xhr.status);
+                    }
+                ]);
         </textarea>
     </div>
 </section>
