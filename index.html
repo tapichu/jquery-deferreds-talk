@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Getting Started with jQuery Deferreds</title>
+
+	<meta name="description" content="A quick intro to jQuery deferreds">
+	<meta name="author" content="Eduardo Lopez">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.core.css">
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.goto.css">
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.menu.css">
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.navigation.css">
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.status.css">
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.hash.css">
+
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/deck.codemirror.css">
+	<link rel="stylesheet" id="codemirror-theme-link" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/default.css">
+
+	<!-- Theme CSS files (menu swaps these out) -->
+	<link rel="stylesheet" id="style-theme-link" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/web-2.0.css">
+	<link rel="stylesheet" id="transition-theme-link" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/lib/horizontal-slide.css">
+
+	<!-- Custom CSS just for this page -->
+	<link rel="stylesheet" href="https://raw.github.com/tapichu/jquery-deferreds-talk/master/css/style.css">
+
+	<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/modernizr.custom.js"></script>
+</head>
+
+<body class="introduction">
+
+<article class="deck-container">
+
+<div class="slide" id="title-slide">
+	<h1>Introducción al objeto Deferred de jQuery</h1>
+</div>
+
+<div class="slide" id="what-is-it-slide">
+    <h2>Mejor manejo de callbacks</h2>
+    <ol>
+        <li class="slide" id="register-callbacks">
+            <h3>Registro de callbacks en colas (queues)</h3>
+            <p>Que se invocarán cuando se resuelva el deferred.</p>
+        </li>
+        <li class="slide" id="invoke-callbacks">
+            <h3>Invocación de las colas de callbacks</h3>
+            <p>Resolviendo o rechazando el deferred.</p>
+        </li>
+        <li class="slide" id="relay-success-failure">
+            <h3>Estados de éxito (resuelto) o error (rechazado)</h3>
+            <p>De cualquier función síncrona o asíncrona.</p>
+        </li>
+        <li class="slide" id="original-dispatch">
+            <h3>Invocación de los callbacks sin importar el evento que los dispara</h3>
+            <p>No importa si ya terminó el evento que completó el deferred.</p>
+        </li>
+    </ol>
+</div>
+
+<div class="slide" id="register-callbacks-slide">
+    <h2>Registro de callbacks</h2>
+    <p>Las funciones que se van a invocar.</p>
+    <ul>
+        <li class="slide" id="deferred-then">
+            <strong>deferred.then()</strong> cuando el objeto Deferred esté resuelto o rechazado.
+        </li>
+        <li class="slide" id="deferred-done">
+            <strong>deferred.done()</strong> cuando el objeto Deferred esté resuelto.
+        </li>
+        <li class="slide" id="deferred-fail">
+            <strong>deferred.fail()</strong> cuando el objeto Deferred esté rechazado.
+        </li>
+        <li class="slide" id="deferred-always">
+            <strong>deferred.always()</strong> (1.6) siempre se invocarán estas funciones.
+        </li>
+    </ul>
+</div>
+
+<div class="slide" id="resolve-deferreds-slide">
+    <h2>Resolver un objeto Deferred</h2>
+    <p>"Llamar" los callbacks asociados al estado del deferred.</p>
+    <ul>
+        <li class="slide" id="deferred-resolve">
+            <strong>deferred.resolve(args)</strong> para resolver el objeto Deferred.
+        </li>
+        <li class="slide" id="deferred-reject">
+            <strong>deferred.reject(args)</strong> para rechazar el objeto Deferred.
+        </li>
+    </ul>
+    <p class="slide" id="deferred-state">
+        Una vez que el objeto Deferred está resuelto o rechazado se mantiene en ese estado.<br/>
+    </p>
+    <p class="slide" id="second-calls">
+        Invocaciones posteriores a <strong>deferred.resolve()</strong> o
+        <strong>deferred.reject()</strong> serán ignoradas.
+    </p>
+    <p class="slide" id="more-functions">
+        Si se agregan más funciones con <strong>deferred.then()</strong> después de que se resolvió
+        el objeto Deferred, estas serán invocadas inmediatamente (con los argumentos enviados al resolver
+        el deferred).
+    </p>
+</div>
+
+<div class="slide" id="jquery-api-slide">
+    <h2>Funciones de jQuery que devuelven deferreds</h2>
+    <ul>
+        <li class="slide" id="jquery-ajax">
+            <h3>jQuery.ajax()</h3>
+            <p>Podemos usar deferreds en vez de <strong>success</strong> y <strong>error</strong>.</p>
+        </li>
+        <li class="slide" id="jquery-when">
+            <h3>jQuery.when()</h3>
+            <p>Método para "juntar" muchos Deferreds en un "master" Deferred con el estado global de todos.</p>
+        </li>
+    </ul>
+</div>
+
+<section class="slide" id="jquery-ajax-example1">
+    <h2>Ejemplo con jQuery.ajax()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-ajax-example1 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.get('/').then(function(data, status, xhr) {
+                log(status);
+            });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="jquery-ajax-example2">
+    <h2>Ejemplo con jQuery.ajax()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-ajax-example2 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.get('/does-not-exists')
+                .done(function(data, status, xhr) {
+                    log(status);
+                })
+                .fail(function(xhr, status) {
+                    log('Error: ' + xhr.status);
+                });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="jquery-when-example">
+    <h2>Ejemplo con jQuery.when()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-when-example .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.when($.get('/'), $.get('/does-not-exists'))
+                .then(function(data1, data2) {
+                    log(data1 + '_' + data2);
+                }, [
+                    function(xhr, status) {
+                        // Do something else
+                    },
+                    function(xhr, status) {
+                        log('Something went wrong: ' + xhr.status);
+                    }
+                ]);
+        </textarea>
+    </div>
+</section>
+
+<div class="slide" id="cache-stats-example">
+    <h2>Ejemplo estadísitcas de caches</h2>
+    <ul>
+        <li class="slide" id="variable-number">
+            <h3>Número variable de caches</h3>
+            <p>Consultar a la vez las estadísticas de 1, 2 o más caches.</p>
+        </li>
+        <li class="slide" id="single-template">
+            <h3>Juntar los resultados y hacer el render del frontend</h3>
+            <p>Una sola plantilla para pintar el contenido del tab.</p>
+        </li>
+    </ul>
+    <p class="slide" id="github-code">
+        <a href="https://github.com/jwmsolutions/sct/blob/develop/portal-interno/front-end/src/main/webapp/js/admin/cache/cache-monitoring.js#L107-133" target="_blank">Código en GitHub</a>
+    </p>
+</div>
+
+<div class="slide" id="deferred-constructor">
+    <h2>Constructor de jQuery.Deferred</h2>
+    <ul>
+        <li class="slide" id="create-deferred">
+            <strong>jQuery.Deferred()</strong> regresa un deferred (una promesa).
+        </li>
+        <li class="slide" id="create-deferred-alt">
+            <strong>jQuery.Deferred(function)</strong> la función recibe como primer arumento (y como this) el deferred creado.
+        </li>
+    </ul>
+    <section class="slide" id="create-deferred-example">
+        <div>
+            <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;">
+                var deferred = $.Deferred();
+
+                var deferredWithCallbak = $.Deferred(function(defer) {
+                    defer.then(function() { alert('done'); });
+                });
+
+                var deferredWithThis = $.Deferred(function() {
+                    this.then(function() { alert('done'); });
+                });
+            </textarea>
+        </div>
+    </section>
+</div>
+
+<div class="slide" id="deferred-methods">
+    <h2>Otros métodos del objeto deferred</h2>
+    <ul>
+        <li class="slide" id="deferred-is-rejected">
+            <strong>deferred.isRejected()</strong> para determinar si el objeto Deferred fue rechazado.
+        </li>
+        <li class="slide" id="deferred-is-resolved">
+            <strong>deferred.isResolved()</strong> para determinar si el objeto Deferred ya se resolvió.
+        </li>
+        <li class="slide" id="deferred-resolve">
+            <strong>deferred.resolve()</strong> para resolver el objeto Deferred e invocar los callbacks con los
+            <em>args</em> proporcionados.
+        </li>
+        <li class="slide" id="deferred-resolve-with">
+            <strong>deferred.resolveWith()</strong> para resolver el objeto Deferred e invocar los callbacks con los
+            <em>args</em> y el <em>contexto</em> proporcionado.
+        </li>
+        <li class="slide" id="deferred-reject">
+            <strong>deferred.reject()</strong> para rechazar el objeto Deferred e invocar los callbacks con los
+            <em>args</em> proporcionados.
+        </li>
+        <li class="slide" id="deferred-reject-with">
+            <strong>deferred.rejectWith()</strong> para rechazar el objeto Deferred e invocar los callbacks con los
+            <em>args</em> y el <em>contexto</em> proporcionado.
+        </li>
+        <li class="slide" id="deferred-pipe">
+            <strong>deferred.pipe()</strong> (1.6) para filtrar o encadenar Deferreds.
+        </li>
+        <li class="slide" id="deferred-promise">
+            <strong>deferred.promise()</strong> que otro código interfiera con el estatus de un deferred geneardo por
+            una función asíncrona.<br/>
+            La promesa sólo tiene los métodos: <em>then, done, fail, isResolved, isRejected, always y pipe</em>.
+        </li>
+        <li class="slide" id="deferred-promise-target">
+            <strong>deferred.promise(target)</strong> permite agregar los métodos de la promesa a un objeto existente.
+        </li>
+    </ul>
+</div>
+
+<section class="slide" id="custom-deferreds-example1">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            // Example
+
+            var obj = {
+                hello: function(name) { console.log("Hello " + name); }
+            },
+            defer = $.Deferred();
+
+            defer.promise(obj);
+
+            defer.resolve("John");
+
+            obj.done(function(name) { obj.hello(name); })
+                .hello('Karl');
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="custom-deferreds-example2">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#custom-deferreds-example2 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            (function() {
+                var defer = $.Deferred();
+
+                $('h2').hover(function(e) {
+                    defer.resolve($(this).text());
+                });
+
+                return defer;
+            })().then(function(text) {
+                log('Heading text is: ' + text);
+            });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="custom-deferreds-example3">
+    <h2>Ejemplo con jQuery.Deferred()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#custom-deferreds-example3 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+            function asyncEvent() {
+                var dfd = new $.Deferred();
+                parent.setTimeout(function() {
+                    dfd.resolve('hurray');
+                }, Math.floor(Math.random()*1500));
+                parent.setTimeout(function() {
+                    dfd.reject('sorry');
+                }, Math.floor(Math.random()*1500));
+                return dfd.promise();
+            }
+
+            $.when(asyncEvent()).then(
+                function(status) { log(status + ', things are going well'); },
+                function(status) { log(status + ', you fail this time'); }
+            );
+        </textarea>
+    </div>
+</section>
+
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<form action="." method="get" class="goto-form">
+	<label for="goto-slide">Go to slide:</label>
+	<input type="number" name="slidenum" id="goto-slide">
+	<input type="submit" value="Go">
+</form>
+
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+</article>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js">\x3C/script>')</script>
+
+<!-- Deck Core and extensions -->
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.core.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.menu.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.goto.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.status.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.navigation.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.hash.js"></script>
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/lib/deck.codemirror.js"></script>
+
+<!-- Specific to this page -->
+<script src="https://raw.github.com/tapichu/jquery-deferreds-talk/master/js/script.js"></script>
+
+</body>
+</html>
