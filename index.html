@@ -21,6 +21,9 @@
 	<link rel="stylesheet" href="./css/lib/deck.status.css">
 	<link rel="stylesheet" href="./css/lib/deck.hash.css">
 
+	<link rel="stylesheet" href="./css/lib/deck.codemirror.css">
+	<link rel="stylesheet" id="codemirror-theme-link" href="./css/lib/default.css">
+
 	<!-- Theme CSS files (menu swaps these out) -->
 	<link rel="stylesheet" id="style-theme-link" href="./css/lib/web-2.0.css">
 	<link rel="stylesheet" id="transition-theme-link" href="./css/lib/horizontal-slide.css">
@@ -116,6 +119,46 @@
     </ul>
 </div>
 
+<section class="slide" id="jquery-ajax-example1">
+    <h2>Ejemplo con jQuery.ajax()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-ajax-example1 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.get('/').then(function(data, status, xhr) {
+                log(status);
+            });
+        </textarea>
+    </div>
+</section>
+
+<section class="slide" id="jquery-ajax-example2">
+    <h2>Ejemplo con jQuery.ajax()</h2>
+    <div>
+        <textarea id="code" name="code" class="code" mode="javascript" sytle="display: none;" runnable="true">
+            var $ = parent.$;
+            var log = function(message) {
+                $('#jquery-ajax-example2 .deck-codemirror-result').html(message);
+            };
+
+            // Example
+
+            $.get('/does-not-exists')
+                .done(function(data, status, xhr) {
+                    log(status);
+                })
+                .fail(function(xhr, status) {
+                    log('Error: ' + xhr.status);
+                });
+        </textarea>
+    </div>
+</section>
+
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
 <a href="#" class="deck-next-link" title="Next">&#8594;</a>
 
@@ -145,6 +188,7 @@
 <script src="./js/lib/deck.status.js"></script>
 <script src="./js/lib/deck.navigation.js"></script>
 <script src="./js/lib/deck.hash.js"></script>
+<script src="./js/lib/deck.codemirror.js"></script>
 
 <!-- Specific to this page -->
 <script src="./js/script.js"></script>
